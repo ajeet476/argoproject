@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-quarkus-app
+  namespace: {{ .Values.namespace }}
+spec:
+  project: {{ .Values.name }}
+  source:
+    repoURL: {{ .Values.chartRepoURL }}
+    targetRevision: {{ .Values.targetRevision }}
+    path: {{ .Values.chartPath }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.namespace }}
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=false
