@@ -1,11 +1,9 @@
 # Where to deploy in Kubernetes
 namespace:
-  create: false
   name: dev-cpn
 
 argoproj:
-  create: true
-  name: myapp
-  chartRepoURL: mydomain
-  targetRevision: 1.0.0
+  name: aq-api
+  chartRepoURL: git@github.com:ajeet476/argoproject.git
+  targetRevision: main
   chartPath: helm-quarkus/

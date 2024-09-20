@@ -1,0 +1,6 @@
+namespace:
+  create: true
+  name: stg-cpn
+
+argoproj:
+  create: false

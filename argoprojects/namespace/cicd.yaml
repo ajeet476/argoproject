@@ -1,0 +1,6 @@
+namespace:
+  create: true
+  name: cicd
+
+argoproj:
+  create: false

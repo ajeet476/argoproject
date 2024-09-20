@@ -1,0 +1,6 @@
+namespace:
+  create: true
+  name: dev-cpn
+
+argoproj:
+  create: false

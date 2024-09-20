@@ -1,0 +1,6 @@
+namespace:
+  create: true
+  name: middleware
+
+argoproj:
+  create: false
