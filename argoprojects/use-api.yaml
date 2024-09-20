@@ -3,10 +3,10 @@ name: use-api
 namespace: dev-cpn
 
 # Where your Helm chart is stored
-chartRepoURL: mydomain
+chartRepoURL: git@github.com:ajeet476/argoproject.git
 
 # e.g., 'main', 'v1.0.0'
-targetRevision: 1.0.0
+targetRevision: main
 
 # Path to your Helm chart within the repository
 chartPath: helm-quarkus/
