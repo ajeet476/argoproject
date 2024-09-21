@@ -5,6 +5,7 @@ namespace:
   gateway:
     create: true
     type: istio
+    hostname: "*"
 
 argoproj:
   create: true

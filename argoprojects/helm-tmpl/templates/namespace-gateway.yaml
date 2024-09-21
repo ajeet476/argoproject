@@ -7,6 +7,7 @@ spec:
   gatewayClassName: {{ .Values.namespace.gateway.type }}
   listeners:
     - name: http
+      hostname: {{ .Values.namespace.gateway.hostname }}
       port: 80
       protocol: HTTP
       allowedRoutes:

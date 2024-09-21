@@ -1,6 +1,7 @@
 namespace:
   create: true
   name: dev-cpn
+  hostname: "dev.ajeet.io"
 
 argoproj:
   create: false

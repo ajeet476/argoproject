@@ -1,6 +1,7 @@
 namespace:
   create: true
   name: stg-cpn
+  hostname: "stg.ajeet.io"
 
 argoproj:
   create: false

@@ -1,6 +1,7 @@
 namespace:
   create: true
   name: cicd
+  hostname: "cicd.ajeet.io"
 
 argoproj:
   create: false
