@@ -9,8 +9,10 @@ export NS=dev-cpn
 kubectl config set-context --current --namespace=$NA
 ```
 
+# Step2: Install istio
 
-# Step2: Install argocd
+
+# Step3: Install argocd
 
 - Install argocd
 
@@ -24,7 +26,7 @@ kubectl apply -f argoprojects/argocd-ingress.yaml
 
 Install CLI
 
-# Step3: Deploy first app
+# Step4: Deploy first app
 
 Create helm chart
 

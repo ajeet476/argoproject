@@ -2,6 +2,9 @@
 namespace:
   create: false
   name: dev-cpn
+  gateway:
+    create: true
+    type: istio
 
 argoproj:
   create: true

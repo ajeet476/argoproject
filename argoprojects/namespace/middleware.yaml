@@ -1,6 +1,8 @@
 namespace:
   create: true
   name: middleware
+  gateway:
+    create: false
 
 argoproj:
   create: false

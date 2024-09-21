@@ -1,19 +1,16 @@
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: aq-api-route
+  name: argocd-route
 spec:
   parentRefs:
-    - name: my-gateway
-  hostnames:
-    - "ajeet.io"
+    - name: cicd
   rules:
     - matches:
         - path:
-            type: PathPrefix
+            type: Exact
             value: /argocd
       backendRefs:
-        - name: argocd-web
-          port:
-            number: 8080
+        - name: argocd
+          port: 9080
