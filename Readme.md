@@ -11,6 +11,9 @@ kubectl config set-context --current --namespace=$NA
 
 # Step2: Install istio
 
+```shell
+istioctl install
+```
 
 # Step3: Install argocd
 
