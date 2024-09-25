@@ -23,7 +23,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -37,6 +37,13 @@ spec:
           image: nginx:1.14.2
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
 ---
 apiVersion: v1
 kind: Service

@@ -16,7 +16,7 @@ see [docs](argoprojects/Readme.md)
 
 ```shell
 export NS=dev-cpn
-kubectl config set-context --current --namespace=$NA
+kubectl config set-context --current --namespace=$NS
 ```
 
 # Step4: Install argocd
