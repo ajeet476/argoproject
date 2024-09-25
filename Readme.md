@@ -2,13 +2,6 @@
 
 Create K8s cluster via GKE
 
-setup context
-
-```shell
-export NS=dev-cpn
-kubectl config set-context --current --namespace=$NA
-```
-
 # Step2: Install istio
 
 ```shell
@@ -18,6 +11,13 @@ istioctl install
 # Step3: Setup namespace and gateway
 
 see [docs](argoprojects/Readme.md)
+
+## Setup context
+
+```shell
+export NS=dev-cpn
+kubectl config set-context --current --namespace=$NA
+```
 
 # Step4: Install argocd
 
