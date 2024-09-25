@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: {{ .Values.namespace.name }}
+  name: {{ .Values.namespace.name }}-gateway
   namespace: {{ .Values.namespace.name }}
 spec:
   gatewayClassName: {{ .Values.namespace.gateway.type }}

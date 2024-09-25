@@ -5,7 +5,7 @@ metadata:
   name: nginx-route
 spec:
   parentRefs:
-    - name: cicd
+    - name: cicd-gateway
   hostnames: ["cicd.ajeet.io"]
   rules:
     - matches:

@@ -5,7 +5,7 @@ metadata:
   name: argocd-route
 spec:
   parentRefs:
-    - name: cicd
+    - name: cicd-gateway
   hostnames: ["cicd.ajeet.io"]
   rules:
     - matches:
