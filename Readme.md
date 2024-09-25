@@ -15,11 +15,18 @@ kubectl config set-context --current --namespace=$NA
 istioctl install
 ```
 
-# Step3: Install argocd
+# Step3: Setup namespace and gateway
+
+see [docs](argoprojects/Readme.md)
+
+# Step4: Install argocd
 
 - Install argocd
 
 https://argo-cd.readthedocs.io/en/stable/getting_started/
+
+kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
 
 - Add ingress
 
@@ -29,10 +36,8 @@ kubectl apply -f argoprojects/argocd-ingress.yaml
 
 Install CLI
 
-# Step4: Deploy first app
+# Step5: Deploy first app
 
 Create helm chart
 
-# Step4: xx
-
-
+# Step6: xx
