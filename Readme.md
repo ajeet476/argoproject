@@ -25,7 +25,11 @@ kubectl config set-context --current --namespace=$NS
 
 https://argo-cd.readthedocs.io/en/stable/getting_started/
 
-kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```shell
+curl https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml | sed 's/namespace: argocd/namespace: cicd/g' > modified_install.yaml
+
+kubectl apply -f modified_install.yaml
+```
 
 
 - Add ingress
