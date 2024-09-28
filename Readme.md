@@ -4,8 +4,22 @@ Create K8s cluster via GKE
 
 # Step2: Install istio
 
+- when using ingress gateway
+
 ```shell
 istioctl install
+```
+
+- when using gateway API
+
+```shell
+# check
+kubectl get crd gateways.gateway.networking.k8s.io
+# if not exits
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -
+
+# install istio
+istioctl install --set profile=minimal -y
 ```
 
 # Step3: Setup namespace and gateway
