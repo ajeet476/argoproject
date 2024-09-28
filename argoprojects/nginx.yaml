@@ -42,8 +42,15 @@ spec:
               cpu: "100m"
               memory: "256Mi"
             requests:
-              cpu: "50m"
+              cpu: "100m"
               memory: "128Mi"
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: nginx-configmap
 ---
 apiVersion: v1
 kind: Service
@@ -58,3 +65,30 @@ spec:
       protocol: TCP
   selector:
     app: nginx
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Test Page</title>
+    </head>
+    <body>
+      <h1>Welcome to my website!</h1>
+    </body>
+    </html>
+  about.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>About Us</title>
+    </head>
+    <body>
+      <h1>About Us</h1>
+      <p>This is the about page.</p>
+    </body>
+    </html>
