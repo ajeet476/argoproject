@@ -1,0 +1,20 @@
+{{- $template := .Files.Get "files/list_template.yaml" }}
+{{- range $appset := .Values.listGenerators }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $appset.name }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          {{- range $app := $appset.apps }}
+          - name: {{ $app.name }}
+            path: {{ $app.path }}
+          {{- end }}
+  template:
+{{- $template | replace "GIT_REPO" $appset.repoURL | replace "REPO_REVISION" $appset.targetRevision | replace "K8S_SERVER" $appset.server | replace "K8S_NS" $appset.namespace | nindent 4 }}
+{{- end }}

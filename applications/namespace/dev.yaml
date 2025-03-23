@@ -1,0 +1,5 @@
+namespace:
+  create: true
+  name: dev
+  gateway:
+    hostname: "dev.ajeet.io"

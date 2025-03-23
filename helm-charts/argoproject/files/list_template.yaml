@@ -1,0 +1,11 @@
+metadata:
+  name: '{{.name}}-production'
+spec:
+  project: default
+  source:
+    repoURL: GIT_REPO
+    targetRevision: REPO_REVISION
+    path: '{{.path}}'
+  destination:
+    server: K8S_SERVER
+    namespace: K8S_NS

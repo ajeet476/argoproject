@@ -1,0 +1,48 @@
+replicaCount: 1
+
+kind: Deployment
+
+rbac:
+  enabled: true
+
+serviceAccount:
+  create: true
+
+podAnnotations:
+  prometheus.io/port: "15020"
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/stats/prometheus"
+  inject.istio.io/templates: gateway
+  sidecar.istio.io/inject: "true"
+
+service:
+  type: LoadBalancer
+  ports:
+    - name: status-port
+      port: 15021
+      protocol: TCP
+      targetPort: 15021
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  loadBalancerIP: ""  # Set an external IP if needed
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+
+autoscaling:
+  enabled: false
+
+networkGateway: ""
+
+terminationGracePeriodSeconds: 30

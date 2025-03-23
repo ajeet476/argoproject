@@ -1,0 +1,88 @@
+global:
+  domain: argocd.ajeet.io
+  namespaceOverride: argocd
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+  image:
+    tag: "v2.14.2"
+  logging:
+    format: json
+    level: warn
+
+configs:
+  params:
+    server.insecure: true
+#  cm:
+#    admin.enabled: false
+#  rbac:
+#    policy.csv: "p, role:none, *, *, */*, deny\n\
+#      g, p@abc.com, role:admin\n\
+#      g, mar@bnc.com, role:readonly"
+#    policy.default: "role:none"
+#    scopes: "[groups, email]"
+#  secret:
+#    argocdServerAdminPassword: "$2a$12$EN0bAEuJaIMihmBWgpE/M.xM1oHwrRSTz/BT0f3pP3IOe1PI/23yi"
+
+## use Redis, do not use redis-ha due to resource usages
+redis:
+  enabled: true
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+controller:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  serviceAccount:
+    create: true
+
+server:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  serviceAccount:
+    create: true
+  extensions:
+    enabled: true
+    extensionList:
+      - name: rollout-extension
+        env:
+          - name: EXTENSION_URL
+            value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.6/extension.tar
+
+repoServer:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+applicationSet:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi

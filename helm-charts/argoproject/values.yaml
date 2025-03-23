@@ -1,0 +1,29 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+listGenerators:
+  - name: prod-apps
+    repoURL: https://github.com/ajeet476/argoproject.git
+    targetRevision: HEAD
+    server: https://kubernetes.default.svc
+    namespace: production
+    apps:
+      - name: cpn-api
+        path: applications/cpn-api
+      - name: use-api
+        path: applications/use-api
+
+matrixGenerators:
+  - name: dev-apps
+    repoURL: https://github.com/ajeet476/argoproject.git
+    targetRevision: HEAD
+    server: https://kubernetes.default.svc
+    namespaces:
+      - dev
+      - stg
+    apps:
+      - name: cpn-api
+        path: applications/cpn-api
+      - name: use-api
+        path: applications/use-api

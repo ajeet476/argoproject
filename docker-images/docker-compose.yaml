@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: "${CONTEXT}"
+      dockerfile: Dockerfile
+    image: "asia-northeast1-docker.pkg.dev/${PRJ}/${REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
+    container_name: my_app_container
+    env_file:
+      - .env_example

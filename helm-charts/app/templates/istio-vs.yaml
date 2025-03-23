@@ -1,0 +1,30 @@
+{{- if and .Values.istio.create .Values.istio.gateway.create }}
+{{- $service := (include "app.fullname" . | trim) -}}
+{{- $service_port := .Values.service.port -}}
+{{- with .Values.istio.gateway }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ $service }}
+spec:
+  hosts:
+    {{- .hosts | toYaml | nindent 4 }}
+  gateways:
+    {{- .gateways | toYaml | nindent 4 }}
+  http:
+    {{- range .routes }}
+    - match:
+        - uri:
+            {{ .type }}: {{ .path }}
+    {{- if .rewrite }}
+      rewrite:
+        uri: {{ .rewrite }}
+    {{- end }}
+      route:
+        - destination:
+            host: {{ $service }}
+            port:
+              number: {{ $service_port }}
+    {{- end }}
+{{- end }}
+{{- end }}

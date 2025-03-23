@@ -1,0 +1,23 @@
+dashboard:
+  enabled: false
+
+controller:
+  metrics:
+    enabled: true
+  logging:
+    format: "json"
+    level: "error"
+  trafficRouterPlugins:
+    - name: "argoproj-labs/gatewayAPI"
+      location: "https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-gatewayapi/releases/download/v0.4.0/gatewayapi-plugin-linux-amd64"
+
+notifications:
+  configmap:
+    create: true
+  secret:
+    create: true
+    items:
+      slack-token: 'x-y--'
+  notifiers:
+    service.slack: |
+      token: $slack-token

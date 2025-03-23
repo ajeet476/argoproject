@@ -1,0 +1,12 @@
+global:
+  istioNamespace: istio-system
+
+# Minimal Istio installation: only Pilot (Istiod) and CRDs
+pilot:
+  enabled: true
+
+ingressGateways:
+  - name: istio-ingressgateway
+    enabled: false
+
+egressGateways: []

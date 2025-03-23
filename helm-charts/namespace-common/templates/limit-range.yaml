@@ -1,0 +1,16 @@
+{{- if .Values.namespace.create -}}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: {{ .Values.namespace.name }}-limit-range
+  namespace: {{ .Values.namespace.name }}
+spec:
+  limits:
+    - type: Container
+      min:
+        cpu: "100m"
+        memory: "64Mi"
+      max:
+        cpu: "2"
+        memory: "4Gi"
+{{- end }}

@@ -1,0 +1,71 @@
+autoscaleEnabled: false
+replicaCount: 1
+
+# Resources for a small pilot install
+resources:
+  requests:
+    cpu: 500m
+    memory: 1024Mi
+
+sidecarInjectorWebhook:
+  enableNamespacesByDefault: false
+
+istiodRemote:
+  enabled: false
+
+telemetry:
+  enabled: true
+
+meshConfig:
+  enablePrometheusMerge: true
+  accessLogFile: /dev/stdout
+  accessLogEncoding: JSON  # ✅ Ensure JSON logging is supported by your monitoring stack
+  defaultConfig:
+    terminationDrainDuration: 30s
+    holdApplicationUntilProxyStarts: true
+
+global:
+  istioNamespace: istio-system
+
+  defaultResources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+  # ⚠ Istio version: Ensure this is compatible with your Kubernetes cluster.
+  tag: 1.24.2
+  variant: ""
+
+  logAsJson: true
+
+  logging:
+    level: "default:info"
+
+  proxy:
+    excludeOutboundPorts: ""
+
+    logLevel: info
+    outlierLogPath: "/dev/stdout"
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 2000m
+        memory: 1024Mi
+
+    statusPort: 15020
+    tracer: "none"
+
+  multiCluster:
+    enabled: false
+
+  pilotCertProvider: istiod
+
+gateways:
+  securityContext: {}
+  seccompProfile: {}

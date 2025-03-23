@@ -1,0 +1,9 @@
+# Where to deploy in Kubernetes
+namespace:
+  create: false
+  name: dev-cpn
+  gateway:
+    create: true
+    use_gateway_api: false
+    type: istio
+    hostname: "*"

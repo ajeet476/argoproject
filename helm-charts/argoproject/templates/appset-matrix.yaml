@@ -1,0 +1,27 @@
+{{- $template := .Files.Get "files/matrix_template.yaml" -}}
+{{- range $appset := .Values.matrixGenerators }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $appset.name }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+              {{- range $ns := $appset.namespaces }}
+                - namespace: {{ $ns }}
+              {{- end }}
+          - list:
+              elements:
+              {{- range $app := $appset.apps }}
+                - name: {{ $app.name }}
+                  path: {{ $app.path }}
+              {{- end }}
+  template:
+{{- $template | replace "GIT_REPO" $appset.repoURL | replace "REPO_REVISION" $appset.targetRevision | replace "K8S_SERVER" $appset.server | nindent 4 }}
+{{- end }}

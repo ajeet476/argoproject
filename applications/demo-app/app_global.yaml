@@ -1,0 +1,61 @@
+
+image:
+  repository: nginx
+  tag: "1.14.2"
+
+replicas: 1
+
+resources:
+  limits:
+    cpu: "100m"
+    memory: "256Mi"
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+service:
+  name: nginx-service
+  port: 80
+
+istio:
+  create: true
+  gateway:
+    use_gateway_api: false
+    gateways:
+      - "dev"
+    hosts:
+      - "dev.ajeet.io"
+    routes:
+      - path: "/nginx"
+        type: prefix
+        rewrite: "/"
+
+configmaps:
+  nginx-configmap:
+    file1:
+      name: index.html
+      content_type: plain
+      content: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Test Page</title>
+        </head>
+        <body>
+          <h1>Welcome to my website!</h1>
+        </body>
+        </html>
+    file2:
+      name: about.html
+      content_type: plain
+      content: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>About Us</title>
+        </head>
+        <body>
+          <h1>About Us</h1>
+          <p>This is the about page.</p>
+        </body>
+        </html>

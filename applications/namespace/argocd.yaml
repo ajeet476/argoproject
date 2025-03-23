@@ -1,0 +1,5 @@
+namespace:
+  create: true
+  name: argocd
+  gateway:
+    hostname: "argocd.ajeet.io"

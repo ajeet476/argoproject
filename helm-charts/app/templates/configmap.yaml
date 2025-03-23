@@ -1,0 +1,21 @@
+{{- range $configMapName, $configMapData := .Values.configmaps }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $configMapName }}
+  labels:
+    app: {{ $.Release.Name }}
+data:
+  {{- range $file := $configMapData }}
+  {{- $contentType := default "plain" $file.content_type }}
+  {{ $file.name }}: |
+    {{- if eq $contentType "json" }}
+    {{- toPrettyJson $file.content | nindent 4 }}
+    {{- else if eq $contentType "tpl" }}
+    {{- tpl $file.content $ | nindent 4 }}
+    {{- else }}
+    {{- $file.content | nindent 4 }}
+    {{- end }}
+  {{- end }}
+---
+{{- end }}

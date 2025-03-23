@@ -1,0 +1,24 @@
+
+image:
+  repository: nginx
+  tag: "1.14.2"
+
+replicas: 1
+
+resourcesPreset: tiny
+
+istio:
+  create: true
+  gateway:
+    create: true
+    use_gateway_api: false
+    gateways:
+      - "dev"
+    hosts:
+      - "dev.ajeet.io"
+    routes:
+      - path: "/cpn-api"
+        type: prefix
+
+helm_test:
+  create: false

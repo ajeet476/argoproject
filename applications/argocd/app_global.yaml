@@ -1,0 +1,24 @@
+appType: Dummy
+
+serviceAccount:
+  create: false
+
+service:
+  create: false
+
+istio:
+  create: true
+  gateway:
+    create: true
+    use_gateway_api: false
+    gateways:
+      - "argocd"
+    hosts:
+       - "argocd.ajeet.io"
+    routes:
+      - path: "/argocd"
+        type: prefix
+        rewrite: "/"
+
+helm_test:
+  create: false
