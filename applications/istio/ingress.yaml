@@ -1,48 +1,102 @@
-replicaCount: 1
+# A-la-carte istio ingress gateway.
+# Must be installed in a separate namespace, to minimize access to secrets.
+gateways:
+  istio-ingressgateway:
+    name: istio-ingressgateway
+    # NOTE that these labels will get encoded implicitly into selectorLabels
+    # if this is a problem, consider using the `gateway` chart instead
+    labels:
+      app: istio-ingressgateway
+      istio: ingressgateway
+    ports:
+      ## You can add custom gateway ports in user values overrides, but it must include those ports since helm replaces.
+      # Note that AWS ELB will by default perform health checks on the first port
+      # on this list. Setting this to the health check port will ensure that health
+      # checks always work. https://github.com/istio/istio/issues/12503
+      - port: 15021
+        targetPort: 15021
+        name: status-port
+        protocol: TCP
+      - port: 80
+        targetPort: 8080
+        name: http2
+        protocol: TCP
+      - port: 443
+        targetPort: 8443
+        name: https
+        protocol: TCP
 
-kind: Deployment
+    # Scalability tuning
+    replicaCount: 1
+#    rollingMaxSurge: 100%
+#    rollingMaxUnavailable: 25%
+#    autoscaleEnabled: true
+#    autoscaleMin: 1
+#    autoscaleMax: 5
 
-rbac:
-  enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
 
-serviceAccount:
-  create: true
+    # To generate an internal load balancer:
+    # --set serviceAnnotations.cloud.google.com/load-balancer-type=internal
+    #serviceAnnotations:
+    #    cloud.google.com/load-balancer-type: "internal"
 
-podAnnotations:
-  prometheus.io/port: "15020"
-  prometheus.io/scrape: "true"
-  prometheus.io/path: "/stats/prometheus"
-  inject.istio.io/templates: gateway
-  sidecar.istio.io/inject: "true"
+    podAnnotations:
+      prometheus.io/port: "15020"
+      prometheus.io/scrape: "true"
+      prometheus.io/path: "/stats/prometheus"
+      inject.istio.io/templates: gateway
+      sidecar.istio.io/inject: "true"
 
-service:
-  type: LoadBalancer
-  ports:
-    - name: status-port
-      port: 15021
-      protocol: TCP
-      targetPort: 15021
-    - name: http2
-      port: 80
-      protocol: TCP
-      targetPort: 80
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
-  loadBalancerIP: ""  # Set an external IP if needed
+    type: LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be
 
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 1000m
-    memory: 1024Mi
+    serviceAccount:
+      # Annotations to add to the service account
+      annotations: {}
 
-autoscaling:
-  enabled: false
+    # whether to run the gateway in a privileged container
+    runAsRoot: false
 
-networkGateway: ""
+    # The injection template to use for the gateway. If not set, no injection will be performed.
+    injectionTemplate: ""
 
-terminationGracePeriodSeconds: 30
+global:
+  # To output all istio components logs in json format by adding --log_as_json argument to each container argument
+  logAsJson: false
+
+  # Comma-separated minimum per-scope logging level of messages to output, in the form of <scope>:<level>,<scope>:<level>
+  # The control plane has different scopes depending on component, but can configure default log level across all components
+  # If empty, default scope and level will be used as configured in code
+  logging:
+    level: "default:info"
+
+  # Used to locate istiod.
+  istioNamespace: istio-system
+
+  meshID: ""
+
+  # Use the user-specified, secret volume mounted key and certs for Pilot and workloads.
+  mountMtlsCerts: false
+
+  # Configure the certificate provider for control plane communication.
+  # Currently, two providers are supported: "kubernetes" and "istiod".
+  # As some platforms may not have kubernetes signing APIs,
+  # Istiod is the default
+  pilotCertProvider: istiod
+
+meshConfig:
+  enablePrometheusMerge: true
+
+  # The trust domain corresponds to the trust root of a system
+  # Refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain
+  trustDomain: "cluster.local"
+
+  defaultConfig:
+    proxyMetadata: {}
+    tracing: {}
