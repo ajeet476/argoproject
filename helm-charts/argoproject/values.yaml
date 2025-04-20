@@ -15,6 +15,18 @@ listGenerators:
       - name: use-api
         path: helm-charts/app
         value_path: applications/use-api
+  - name: namespaces
+    repoURL: https://github.com/ajeet476/argoproject.git
+    targetRevision: HEAD
+    server: https://kubernetes.default.svc
+    namespace: production
+    apps:
+      - name: dev-common
+        path: helm-charts/namespace-common
+      - name: stg-common
+        path: helm-charts/namespace-common
+      - name: prod-common
+        path: helm-charts/namespace-common
 
 matrixGenerators:
   - name: dev-apps
