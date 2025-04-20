@@ -10,9 +10,11 @@ listGenerators:
     namespace: production
     apps:
       - name: cpn-api
-        path: applications/cpn-api
+        path: helm-charts/app
+        value_path: applications/cpn-api
       - name: use-api
-        path: applications/use-api
+        path: helm-charts/app
+        value_path: applications/use-api
 
 matrixGenerators:
   - name: dev-apps
@@ -24,6 +26,8 @@ matrixGenerators:
       - stg
     apps:
       - name: cpn-api
-        path: applications/cpn-api
+        path: helm-charts/app
+        value_path: applications/cpn-api
       - name: use-api
-        path: applications/use-api
+        path: helm-charts/app
+        value_path: applications/use-api
