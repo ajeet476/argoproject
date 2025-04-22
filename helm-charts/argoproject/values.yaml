@@ -11,10 +11,14 @@ listGenerators:
     apps:
       - name: cpn-api
         path: helm-charts/app
-        value_path: applications/cpn-api
+        helm:
+          valueFiles:
+            - applications/cpn-api/app_global.yaml
       - name: use-api
         path: helm-charts/app
-        value_path: applications/use-api
+        helm:
+          valueFiles:
+            - applications/use-api/app_global.yaml
   - name: namespaces
     repoURL: https://github.com/ajeet476/argoproject.git
     targetRevision: HEAD
@@ -23,10 +27,19 @@ listGenerators:
     apps:
       - name: dev-common
         path: helm-charts/namespace-common
+        helm:
+          valueFiles:
+            - applications/namespace/dev.yaml
       - name: stg-common
         path: helm-charts/namespace-common
+        helm:
+          valueFiles:
+            - applications/namespace/stg.yaml
       - name: prod-common
         path: helm-charts/namespace-common
+        helm:
+          valueFiles:
+            - applications/namespace/prod.yaml
 
 matrixGenerators:
   - name: dev-apps
@@ -39,7 +52,11 @@ matrixGenerators:
     apps:
       - name: cpn-api
         path: helm-charts/app
-        value_path: applications/cpn-api
+        helm:
+          valueFiles:
+            - applications/cpn-api/app_global.yaml
       - name: use-api
         path: helm-charts/app
-        value_path: applications/use-api
+        helm:
+          valueFiles:
+            - applications/use-api/app_global.yaml

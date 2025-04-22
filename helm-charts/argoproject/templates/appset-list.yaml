@@ -1,4 +1,4 @@
-{{- $template := .Files.Get "files/list_template.yaml" }}
+{{- $template := (.Files.Get "files/list_template.yaml") | fromYaml }}
 {{- range $appset := .Values.listGenerators }}
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -19,5 +19,6 @@ spec:
             path: {{ $app.path }}
           {{- end }}
   template:
-{{- $template | replace "GIT_REPO" $appset.repoURL | replace "REPO_REVISION" $appset.targetRevision | replace "K8S_SERVER" $appset.server | replace "K8S_NS" $appset.namespace | nindent 4 }}
+  {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $appset) | fromYaml }}
+  {{- merge (dict "spec" $appSpec) $template | toYaml | nindent 4 }}
 {{- end }}
