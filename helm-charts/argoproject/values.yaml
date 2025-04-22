@@ -60,3 +60,13 @@ matrixGenerators:
         helm:
           valueFiles:
             - applications/use-api/app_global.yaml
+
+
+gitRepoCred:
+  url: https://github.com/ajeet476
+  username: ""
+  password: ""
+
+gitRepos:
+  - name: "argoproject"
+    url: https://github.com/ajeet476/argoproject
