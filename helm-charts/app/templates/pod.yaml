@@ -1,0 +1,9 @@
+{{- if eq "Pod" .Values.appType -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "app.fullname" . }}
+  {{- include "app.pod.metadata" . | nindent 2 }}
+spec:
+  {{- include "app.pod.spec" . | nindent 2 }}
+{{- end }}

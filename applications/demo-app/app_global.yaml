@@ -5,6 +5,8 @@ image:
 
 replicas: 1
 
+appType: Rollout
+
 resources:
   limits:
     cpu: "100m"

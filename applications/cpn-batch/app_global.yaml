@@ -1,0 +1,13 @@
+
+image:
+  repository: nginx
+  tag: "1.14.2"
+
+replicas: 1
+
+resourcesPreset: tiny
+
+appType: Job
+
+helm_test:
+  create: false
