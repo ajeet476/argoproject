@@ -60,6 +60,12 @@ matrixGenerators:
         path: helm-charts/app
       - name: use-api
         path: helm-charts/app
+      - name: use-batch
+        path: helm-charts/app
+      - name: use-report
+        path: helm-charts/app
+      - name: demo-app
+        path: helm-charts/app
 
 gitRepoCred:
   url: https://github.com/ajeet476

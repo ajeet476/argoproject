@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
-  schedule: "* * * * *"
+  schedule: {{ .Values.batch.schedule }}
   jobTemplate:
     spec:
       template:

@@ -1,0 +1,18 @@
+
+image:
+  repository: nginx
+  tag: "1.14.2"
+
+replicas: 1
+
+resourcesPreset: tiny
+
+appType: CronJob
+
+# Configure for batch
+batch:
+  suspend: false
+  cron
+
+helm_test:
+  create: false
