@@ -97,7 +97,7 @@ batch:
   backoffLimit: 4
   activeDeadlineSeconds: 100
   ttlSecondsAfterFinished: 100
-  schedule: "0 1 * * *"
+#  schedule: "0 1 * * *"
 #  timeZone: Asia/Tokyo
 
 # Resources

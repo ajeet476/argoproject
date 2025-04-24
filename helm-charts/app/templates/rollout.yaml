@@ -12,11 +12,11 @@ spec:
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- include "app.rollout.strategy" . | nindent 6 }}
   template:
     metadata:
     {{- include "app.pod.metadata" . | nindent 6 }}
     spec:
     {{- include "app.pod.spec" . | nindent 6 }}
-  strategy:
-    {{- include "app.rollout.strategy" . | nindent 6 }}
 {{- end }}

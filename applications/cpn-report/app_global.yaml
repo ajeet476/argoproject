@@ -12,7 +12,7 @@ appType: CronJob
 # Configure for batch
 batch:
   suspend: false
-  cron
+  schedule: "0 1 * * *"
 
 helm_test:
   create: false

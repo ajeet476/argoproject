@@ -9,16 +9,16 @@
 {{- end }}
 
 {{- define "app.rollout.strategy" -}}
-{{- with .Values.rollout }}
 {{- $service := (include "app.fullname" . | trim) -}}
+{{- $istioVs := (include "app.rollout.trafficRouting.istio" . | trim) -}}
+{{- with .Values.rollout }}
 {{- if eq "canary" .type }}
 canary:
   trafficRouting:
-  {{- $istioVs := ("app.rollout.trafficRouting.istio" | fromYaml) -}}
   {{- if $istioVs }}
     istio:
       virtualServices:
-      {{ toYaml $istioVs | nindent 8 }}
+      {{- $istioVs | nindent 8 }}
       destinationRule:
         name: {{ $service }}
         canarySubsetName: canary
@@ -31,7 +31,6 @@ canary:
   - pause: {duration: 30s}
   - setWeight: 100
   - pause: {duration: 10}
-{{- else }}
-
+{{- end }}
 {{- end }}
 {{- end }}
