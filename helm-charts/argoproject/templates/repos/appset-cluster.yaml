@@ -1,0 +1,17 @@
+{{- $template := (.Files.Get "files/list_template.yaml") | fromYaml }}
+{{- range $appset := .Values.appGenerators }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $appset.name }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/source/targetRevision
+  generators:
+    - clusters:
+  template:
+{{- end }}

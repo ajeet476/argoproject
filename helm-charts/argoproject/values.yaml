@@ -2,6 +2,19 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+appGenerators:
+  - name: spark
+    server: https://kubernetes.default.svc
+    namespace: production
+    sources:
+      - repoURL: oci://registry-1.docker.io/bitnamicharts/spark
+        targetRevision: HEAD
+        helm:
+          valueFiles:
+            - applications/{{ .name }}/app_global.yaml
+      - repoURL: https://github.com/ajeet476/argoproject.git
+        targetRevision: HEAD
+
 listGenerators:
   - name: prod-apps
     server: https://kubernetes.default.svc

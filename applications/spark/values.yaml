@@ -1,0 +1,83 @@
+---
+metrics:
+  enabled: true
+
+master:
+  networkPolicy:
+    enabled: false
+  pdb:
+    create: true
+    minAvailable: 1
+  extraEnvVars:
+    - name: BITNAMI_QUIET
+      value: "true"
+  configOptions:
+    -Dspark.deploy.retainedApplications=5
+    -Dspark.deploy.retainedDrivers=5
+  extraVolumes:
+    - name: log4j-config
+      projected:
+        defaultMode: 420
+        sources:
+          - configMap:
+              name: log4j-config
+  extraVolumeMounts:
+    - mountPath: /opt/bitnami/spark/conf/log4j2.properties
+      name: log4j-config
+      subPath: log4j2.properties
+worker:
+  networkPolicy:
+    enabled: false
+  extraEnvVars:
+    - name: BITNAMI_QUIET
+      value: "true"
+  podAnnotations:
+    cloud.google.com/compute-class: Scale-Out
+  replicaCount: 1
+  pdb:
+    create: true
+    maxUnavailable: 1
+  autoscaling:
+    enabled: false
+    maxReplicas: 2
+  configOptions:
+    -Dspark.worker.cleanup.enabled=true
+    -Dspark.worker.cleanup.interval=300
+    -Dspark.worker.cleanup.appDataTtl=900
+  extraVolumes:
+    - name: log4j-config
+      projected:
+        defaultMode: 420
+        sources:
+          - configMap:
+              name: log4j-config
+  extraVolumeMounts:
+    - mountPath: /opt/bitnami/spark/conf/log4j2.properties
+      name: log4j-config
+      subPath: log4j2.properties
+  #  memoryLimit: 1g
+  #  coreLimit: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 8144Mi
+      ephemeral-storage: 1Gi
+    requests:
+      cpu: 100m
+      memory: 814Mi
+      ephemeral-storage: 1Gi
+
+extraDeploy:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: log4j-config
+      labels:
+        app: log4j-config
+    data:
+      log4j2.properties: |
+        rootLogger.appenderRef.stdout.ref = console
+        appender.console.type = Console
+        appender.console.name = console
+        appender.console.target = SYSTEM_OUT
+        appender.console.layout.type = JSONLayout
