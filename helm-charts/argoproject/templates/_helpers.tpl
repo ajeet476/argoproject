@@ -8,11 +8,11 @@ source:
 {{- with .helm }}
  {{- if .valueFiles }}
   valueFiles:
-    {{- .valueFiles | nindent 4 }}
+    {{- toYaml .valueFiles | nindent 4 }}
   {{- end }}
   {{- if .valuesObject }}
   valuesObject:
-    {{- .valuesObject | nindent 4 }}
+    {{- toYaml .valuesObject | nindent 4 }}
   {{- end }}
 {{- end }}
 

@@ -1,4 +1,4 @@
-{{- if eq "Deployment" .Values.appType -}}
+{{- if eq "Rollout" .Values.appType -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,4 +17,6 @@ spec:
     {{- include "app.pod.metadata" . | nindent 6 }}
     spec:
     {{- include "app.pod.spec" . | nindent 6 }}
+  strategy:
+    {{- include "app.rollout.strategy" . | nindent 6 }}
 {{- end }}

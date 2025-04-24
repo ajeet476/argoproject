@@ -4,46 +4,39 @@
 
 listGenerators:
   - name: prod-apps
+    server: https://kubernetes.default.svc
     repoURL: https://github.com/ajeet476/argoproject.git
     targetRevision: HEAD
-    server: https://kubernetes.default.svc
+    helm:
+      valueFiles:
+        - applications/{{ .name }}/app_global.yaml
     namespace: production
     apps:
       - name: cpn-api
         path: helm-charts/app
-        helm:
-          valueFiles:
-            - applications/cpn-api/app_global.yaml
       - name: use-api
         path: helm-charts/app
-        helm:
-          valueFiles:
-            - applications/use-api/app_global.yaml
   - name: namespaces
+    server: https://kubernetes.default.svc
     repoURL: https://github.com/ajeet476/argoproject.git
     targetRevision: HEAD
-    server: https://kubernetes.default.svc
-    namespace: production
+    helm:
+      valueFiles:
+        - applications/namespace/{{ .name }}.yaml
     apps:
-      - name: dev-common
+      - name: dev
         path: helm-charts/namespace-common
-        helm:
-          valueFiles:
-            - applications/namespace/dev.yaml
-      - name: stg-common
+      - name: stg
         path: helm-charts/namespace-common
-        helm:
-          valueFiles:
-            - applications/namespace/stg.yaml
-      - name: prod-common
+      - name: prod
         path: helm-charts/namespace-common
-        helm:
-          valueFiles:
-            - applications/namespace/prod.yaml
 
 matrixGenerators:
   - name: dev-apps
     repoURL: https://github.com/ajeet476/argoproject.git
+    helm:
+      valueFiles:
+        - applications/{{ .name }}/app_global.yaml
     targetRevision: HEAD
     server: https://kubernetes.default.svc
     namespaces:
@@ -52,15 +45,8 @@ matrixGenerators:
     apps:
       - name: cpn-api
         path: helm-charts/app
-        helm:
-          valueFiles:
-            - applications/cpn-api/app_global.yaml
       - name: use-api
         path: helm-charts/app
-        helm:
-          valueFiles:
-            - applications/use-api/app_global.yaml
-
 
 gitRepoCred:
   url: https://github.com/ajeet476

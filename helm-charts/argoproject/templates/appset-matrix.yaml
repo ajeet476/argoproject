@@ -21,10 +21,7 @@ spec:
               {{- end }}
           - list:
               elements:
-              {{- range $app := $appset.apps }}
-                - name: {{ $app.name }}
-                  path: {{ $app.path }}
-              {{- end }}
+                {{- $appset.apps | toYaml | nindent 16 }}
   template:
   {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $appset) | fromYaml }}
   {{- merge (dict "spec" $appSpec) $template | toYaml | nindent 4 }}

@@ -61,6 +61,8 @@ service:
 
 istio:
   create: false
+  destinationRule:
+    create: true
   cluster:
     create: false
   gateway:
@@ -74,6 +76,20 @@ istio:
 #      - path: "/path2"
 #        type: prefix
 #        rewrite: "/new-path"
+
+# Configure for rollout
+rollout:
+  type: canary
+  analysisTemplate:
+    smokeTest:
+      create: true
+      successCondition: 0.9
+    errorLogs:
+      create: true
+      successCondition: 1
+    successRate:
+      create: true
+      successCondition: 0.7
 
 # Resources
 resourcesPreset: none
