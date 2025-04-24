@@ -13,9 +13,9 @@ spec:
   ttlSecondsAfterFinished: {{ default 100 .ttlSecondsAfterFinished }}
   {{- end }}
   template:
-    restartPolicy: Never
     metadata:
     {{- include "app.pod.metadata" . | nindent 6 }}
     spec:
+      restartPolicy: Never
     {{- include "app.pod.spec" . | nindent 6 }}
 {{- end }}

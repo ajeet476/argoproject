@@ -16,5 +16,6 @@ spec:
         metadata:
         {{- include "app.pod.metadata" . | nindent 10 }}
         spec:
+          restartPolicy: Never
         {{- include "app.pod.spec" . | nindent 10 }}
 {{- end }}

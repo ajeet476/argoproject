@@ -14,5 +14,11 @@ batch:
   suspend: false
   schedule: "0 1 * * *"
 
+service:
+  create: false
+
+serviceAccount:
+  create: false
+
 helm_test:
   create: false

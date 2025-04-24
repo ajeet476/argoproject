@@ -9,5 +9,11 @@ resourcesPreset: tiny
 
 appType: Job
 
+service:
+  create: false
+
+serviceAccount:
+  create: false
+
 helm_test:
   create: false
