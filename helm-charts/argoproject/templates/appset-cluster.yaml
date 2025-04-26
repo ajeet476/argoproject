@@ -1,4 +1,4 @@
-{{- $template := (.Files.Get "files/list_template.yaml") | fromYaml }}
+{{- $template := (.Files.Get "files/list_template_name.yaml") | fromYaml }}
 {{- range $appset := .Values.appGenerators }}
 {{- if $appset.enabled }}
 ---

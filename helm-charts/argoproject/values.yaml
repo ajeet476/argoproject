@@ -27,6 +27,7 @@ listGenerators:
     source:
       repoURL: https://github.com/ajeet476/argoproject.git
       targetRevision: HEAD
+      path: '{{.path}}'
       helm:
         valueFiles:
           - applications/{{ .name }}/app_global.yaml
@@ -42,6 +43,7 @@ listGenerators:
     source:
       repoURL: https://github.com/ajeet476/argoproject.git
       targetRevision: HEAD
+      path: '{{.path}}'
       helm:
         valueFiles:
           - applications/namespace/{{ .name }}.yaml
@@ -59,11 +61,13 @@ matrixGenerators:
     source:
       repoURL: https://github.com/ajeet476/argoproject.git
       targetRevision: HEAD
+      path: '{{.path}}'
       helm:
         valueFiles:
           - applications/{{ .name }}/app_global.yaml
     destination:
       server: https://kubernetes.default.svc
+      namespace: '{{.namespace}}'
     namespaces:
       - dev
       - stg

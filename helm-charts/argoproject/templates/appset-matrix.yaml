@@ -1,4 +1,4 @@
-{{- $template := .Files.Get "files/matrix_template.yaml" | fromYaml -}}
+{{- $template_name := .Files.Get "files/matrix_template_name.yaml" | trim -}}
 {{- range $appset := .Values.matrixGenerators }}
 {{- if $appset.enabled }}
 ---
@@ -24,7 +24,9 @@ spec:
               elements:
                 {{- $appset.apps | toYaml | nindent 16 }}
   template:
-  {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $appset) | fromYaml }}
-  {{- merge (dict "spec" $appSpec) $template | toYaml | nindent 4 }}
+    metadata:
+      {{- $template_name | nindent 6 }}
+    spec:
+      {{- include "argo-app.template.spec" (dict "ArgoApp" $appset) | nindent 6 }}
 {{- end }}
 {{- end }}

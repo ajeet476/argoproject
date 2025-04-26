@@ -1,5 +1,0 @@
-metadata:
-  name: '{{.name}}-production'
-spec:
-  source:
-    path: '{{.path}}'

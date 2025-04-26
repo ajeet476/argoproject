@@ -5,7 +5,7 @@ project: {{ default "default" .project }}
 destination:
   server: {{ .destination.server }}
 {{- with .destination.namespace }}
-  namespace: {{ . }}
+  namespace: {{ . | quote }}
 {{- end }}
 
 {{- include "argo-app.template.spec.sources" . | nindent 0 }}
