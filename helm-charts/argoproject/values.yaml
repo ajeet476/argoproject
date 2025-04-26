@@ -9,11 +9,12 @@ appGenerators:
       server: https://kubernetes.default.svc
       namespace: production
     sources:
-      - repoURL: oci://registry-1.docker.io/bitnamicharts/spark
-        targetRevision: HEAD
+      - repoURL: oci://registry-1.docker.io/bitnamicharts
+        chart: spark
+        targetRevision: 9.3.6
         helm:
           valueFiles:
-            - $values/applications/{{ .name }}/app_global.yaml
+            - $values/applications/spark/values.yaml
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         ref: values
