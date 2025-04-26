@@ -5,8 +5,9 @@
 appGenerators:
   - enabled: true
     name: spark
-    server: https://kubernetes.default.svc
-    namespace: production
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: production
     sources:
       - repoURL: oci://registry-1.docker.io/bitnamicharts/spark
         targetRevision: HEAD
@@ -20,13 +21,15 @@ appGenerators:
 listGenerators:
   - enabled: true
     name: prod-apps
-    server: https://kubernetes.default.svc
-    repoURL: https://github.com/ajeet476/argoproject.git
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-        - applications/{{ .name }}/app_global.yaml
-    namespace: production
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: production
+    source:
+      repoURL: https://github.com/ajeet476/argoproject.git
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - applications/{{ .name }}/app_global.yaml
     apps:
       - name: cpn-api
         path: helm-charts/app
@@ -34,12 +37,14 @@ listGenerators:
         path: helm-charts/app
   - enabled: true
     name: namespaces
-    server: https://kubernetes.default.svc
-    repoURL: https://github.com/ajeet476/argoproject.git
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-        - applications/namespace/{{ .name }}.yaml
+    destination:
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/ajeet476/argoproject.git
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - applications/namespace/{{ .name }}.yaml
     apps:
       - name: dev
         path: helm-charts/namespace-common
@@ -51,12 +56,14 @@ listGenerators:
 matrixGenerators:
   - enabled: true
     name: dev-apps
-    repoURL: https://github.com/ajeet476/argoproject.git
-    helm:
-      valueFiles:
-        - applications/{{ .name }}/app_global.yaml
-    targetRevision: HEAD
-    server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/ajeet476/argoproject.git
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - applications/{{ .name }}/app_global.yaml
+    destination:
+      server: https://kubernetes.default.svc
     namespaces:
       - dev
       - stg

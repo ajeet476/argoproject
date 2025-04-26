@@ -1,5 +1,6 @@
 {{- $template := (.Files.Get "files/list_template.yaml") | fromYaml }}
 {{- range $appset := .Values.appGenerators }}
+{{- if $appset.enabled }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -14,4 +15,5 @@ spec:
   generators:
     - clusters:
   template:
+{{- end }}
 {{- end }}

@@ -7,7 +7,7 @@ kind: ApplicationSet
 metadata:
   name: {{ $app.name }}
 spec:
-  {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $appset) | fromYaml }}
+  {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $app) | fromYaml }}
   {{- merge (dict "spec" $appSpec) $template | toYaml | nindent 4 }}
 {{- end }}
 {{- end }}

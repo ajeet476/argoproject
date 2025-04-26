@@ -2,25 +2,13 @@
 {{- with .ArgoApp }}
 project: {{ default "default" .project }}
 
-source:
-  repoURL: {{ .repoURL }}
-  targetRevision: {{ .targetRevision }}
-{{- with .helm }}
- {{- if .valueFiles }}
-  valueFiles:
-    {{- toYaml .valueFiles | nindent 4 }}
-  {{- end }}
-  {{- if .valuesObject }}
-  valuesObject:
-    {{- toYaml .valuesObject | nindent 4 }}
-  {{- end }}
-{{- end }}
-
 destination:
-  server: {{ .server }}
-{{- with .namespace }}
+  server: {{ .destination.server }}
+{{- with .destination.namespace }}
   namespace: {{ . }}
 {{- end }}
+
+{{- include "argo-app.template.spec.sources" . | nindent 0 }}
 
 syncPolicy:
   automated:
@@ -40,5 +28,16 @@ syncPolicy:
 ignoreDifferences:
   {{ . | nindent 2 }}
 {{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "argo-app.template.spec.sources" -}}
+{{- with .source }}
+source:
+{{- toYaml . | nindent 2 }}
+{{- end }}
+{{- with .sources }}
+sources:
+{{- toYaml . | nindent 2 }}
 {{- end }}
 {{- end }}
