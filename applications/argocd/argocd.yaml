@@ -6,7 +6,7 @@ global:
     runAsGroup: 999
     fsGroup: 999
   image:
-    tag: "v2.14.2"
+    tag: "v2.14.11"
   logging:
     format: json
     level: warn
@@ -75,7 +75,7 @@ server:
       - name: rollout-extension
         env:
           - name: EXTENSION_URL
-            value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.6/extension.tar
+            value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.7/extension.tar
 
 repoServer:
   replicas: 1

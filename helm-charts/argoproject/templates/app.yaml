@@ -2,7 +2,7 @@
 {{- if $app.enabled }}
 ---
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: {{ $app.name }}
 spec:
