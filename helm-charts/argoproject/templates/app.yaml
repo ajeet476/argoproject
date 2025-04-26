@@ -1,0 +1,13 @@
+{{- $template := (.Files.Get "files/list_template.yaml") | fromYaml }}
+{{- range $app := .Values.appGenerators }}
+{{- if $app.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ $app.name }}
+spec:
+  {{- $appSpec := include "argo-app.template.spec" (dict "ArgoApp" $appset) | fromYaml }}
+  {{- merge (dict "spec" $appSpec) $template | toYaml | nindent 4 }}
+{{- end }}
+{{- end }}

@@ -3,7 +3,8 @@
 # Declare variables to be passed into your templates.
 
 appGenerators:
-  - name: spark
+  - enabled: true
+    name: spark
     server: https://kubernetes.default.svc
     namespace: production
     sources:
@@ -11,12 +12,14 @@ appGenerators:
         targetRevision: HEAD
         helm:
           valueFiles:
-            - applications/{{ .name }}/app_global.yaml
+            - $values/applications/{{ .name }}/app_global.yaml
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
+        ref: values
 
 listGenerators:
-  - name: prod-apps
+  - enabled: true
+    name: prod-apps
     server: https://kubernetes.default.svc
     repoURL: https://github.com/ajeet476/argoproject.git
     targetRevision: HEAD
@@ -29,7 +32,8 @@ listGenerators:
         path: helm-charts/app
       - name: use-api
         path: helm-charts/app
-  - name: namespaces
+  - enabled: true
+    name: namespaces
     server: https://kubernetes.default.svc
     repoURL: https://github.com/ajeet476/argoproject.git
     targetRevision: HEAD
@@ -45,7 +49,8 @@ listGenerators:
         path: helm-charts/namespace-common
 
 matrixGenerators:
-  - name: dev-apps
+  - enabled: true
+    name: dev-apps
     repoURL: https://github.com/ajeet476/argoproject.git
     helm:
       valueFiles:
@@ -68,10 +73,12 @@ matrixGenerators:
         path: helm-charts/app
 
 gitRepoCred:
+  enabled: true
   url: https://github.com/ajeet476
   username: ""
   password: ""
 
 gitRepos:
-  - name: "argoproject"
+  - enabled: true
+    name: "argoproject"
     url: https://github.com/ajeet476/argoproject
