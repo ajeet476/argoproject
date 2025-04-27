@@ -31,7 +31,7 @@ listGenerators:
       path: '{{.path}}'
       helm:
         valueFiles:
-          - applications/{{ .name }}/app_global.yaml
+          - ../../applications/{{ .name }}/app_global.yaml
     apps:
       - name: cpn-api
         path: helm-charts/app
@@ -47,7 +47,7 @@ listGenerators:
       path: '{{.path}}'
       helm:
         valueFiles:
-          - applications/namespace/{{ .name }}.yaml
+          - ../../applications/namespace/{{ .name }}.yaml
     apps:
       - name: dev
         path: helm-charts/namespace-common
@@ -65,7 +65,7 @@ matrixGenerators:
       path: '{{.path}}'
       helm:
         valueFiles:
-          - applications/{{ .name }}/app_global.yaml
+          - ../../applications/{{ .name }}/app_global.yaml
     destination:
       server: https://kubernetes.default.svc
       namespace: '{{.namespace}}'
