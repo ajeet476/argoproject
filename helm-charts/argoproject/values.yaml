@@ -85,7 +85,7 @@ matrixGenerators:
         path: helm-charts/app
 
 gitRepoCred:
-  enabled: true
+  enabled: false
   url: https://github.com/ajeet476
   username: ""
   password: ""

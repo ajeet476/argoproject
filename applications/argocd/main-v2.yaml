@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: main
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/source/targetRevision
+  generators:
+    - list:
+        elements:
+          - name: acl
+            valuesObject:
+              appGenerators: []
+              listGenerators: []
+              matrixGenerators: []
+              gitRepoCred:
+                enabled: true
+          - name: middlewares
+            valuesObject:
+              listGenerators: []
+              matrixGenerators: []
+          - name: apps
+            valuesObject:
+              appGenerators: []
+  template:
+    metadata:
+      name: main-'{{.name}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: argocd
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        path: helm-charts/argoproject
+        repoURL: https://github.com/ajeet476/argoproject.git
+        targetRevision: HEAD
+        helm:
+          valuesObject:
+            '{{ .valuesObject }}'
+      syncPolicy:
+        syncOptions:
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - group: "*"
+          kind: "Application"
+          namespace: "*"
+          jsonPointers:
+            # Allow manually disabling auto sync for apps, useful for debugging.
+            - /spec/syncPolicy/automated
+            # These are automatically updated on a regular basis.
+            # Not ignoring last applied configuration since it's used for computing diffs after normalization.
+            - /metadata/annotations/argocd.argoproj.io~1refresh
+            - /operation
