@@ -12,18 +12,18 @@ spec:
     - list:
         elements:
           - name: acl
-            valuesObject:
+            values: |
               appGenerators: []
               listGenerators: []
               matrixGenerators: []
               gitRepoCred:
                 enabled: true
           - name: middlewares
-            valuesObject:
+            values: |
               listGenerators: []
               matrixGenerators: []
           - name: apps
-            valuesObject:
+            values: |
               appGenerators: []
   template:
     metadata:
@@ -40,8 +40,8 @@ spec:
         repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         helm:
-          valuesObject:
-            '{{ .valuesObject }}'
+          values: |
+            '{{ .values }}'
       syncPolicy:
         syncOptions:
           - RespectIgnoreDifferences=true

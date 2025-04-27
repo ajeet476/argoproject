@@ -9,7 +9,7 @@ appGenerators:
       server: https://kubernetes.default.svc
       namespace: production
     sources:
-      - repoURL: oci://registry-1.docker.io/bitnamicharts
+      - repoURL: registry-1.docker.io/bitnamicharts
         chart: spark
         targetRevision: 9.3.6
         helm:
