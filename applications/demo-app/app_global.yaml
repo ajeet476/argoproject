@@ -25,7 +25,7 @@ istio:
   destinationRule:
     create: true
   cluster:
-    create: false
+    create: true
   gateway:
     create: true
     use_gateway_api: false
