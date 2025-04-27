@@ -19,9 +19,15 @@ service:
   name: nginx-service
   port: 80
 
+
 istio:
   create: true
+  destinationRule:
+    create: true
+  cluster:
+    create: false
   gateway:
+    create: true
     use_gateway_api: false
     gateways:
       - "dev"
