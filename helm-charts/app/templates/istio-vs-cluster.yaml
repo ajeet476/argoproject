@@ -1,6 +1,5 @@
 {{- if and .Values.istio.create .Values.istio.cluster.create }}
 {{- $service := (include "app.fullname" . | trim) -}}
-{{- $service_port := .Values.service.port -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -10,8 +9,5 @@ spec:
     - {{ $service }}
   http:
     - route:
-      - destination:
-          host: {{ $service }}
-          port:
-            number: {{ $service_port }}
+    {{- include "app.istio.route.destination" (dict "RouteDest" (dict "host" $service)) | nindent 6 }}
 {{- end }}
