@@ -13,18 +13,24 @@ spec:
         elements:
           - name: acl
             values: |
-              appGenerators: []
-              listGenerators: []
-              matrixGenerators: []
+              appGenerators: null
+              listGenerators: null
+              matrixGenerators: null
               gitRepoCred:
                 enabled: true
+              gitRepos:
+                argoproject:
+                  enabled: true
+              projectGenerators:
+                default:
+                  enabled: true
           - name: middlewares
             values: |
-              listGenerators: []
-              matrixGenerators: []
+              listGenerators: null
+              matrixGenerators: null
           - name: apps
             values: |
-              appGenerators: []
+              appGenerators: null
   template:
     metadata:
       name: main-{{.name}}

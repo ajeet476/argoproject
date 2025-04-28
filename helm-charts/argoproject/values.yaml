@@ -3,7 +3,8 @@
 # Declare variables to be passed into your templates.
 
 appGenerators:
-  - enabled: true
+  spark:
+    enabled: true
     name: spark
     destination:
       server: https://kubernetes.default.svc
@@ -18,7 +19,8 @@ appGenerators:
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         ref: values
-  - enabled: true
+  istio-base:
+    enabled: true
     name: istio-base
     destination:
       server: https://kubernetes.default.svc
@@ -33,7 +35,8 @@ appGenerators:
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         ref: values
-  - enabled: true
+  istio-istiod:
+    enabled: true
     name: istio-istiod
     destination:
       server: https://kubernetes.default.svc
@@ -48,7 +51,8 @@ appGenerators:
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         ref: values
-  - enabled: true
+  istio-ingress:
+    enabled: true
     name: istio-ingress
     destination:
       server: https://kubernetes.default.svc
@@ -65,7 +69,8 @@ appGenerators:
         ref: values
 
 listGenerators:
-  - enabled: true
+  prod-apps:
+    enabled: true
     name: prod-apps
     destination:
       server: https://kubernetes.default.svc
@@ -82,7 +87,8 @@ listGenerators:
         path: helm-charts/app
       - name: use-api
         path: helm-charts/app
-  - enabled: true
+  namespaces:
+    enabled: true
     name: namespaces
     destination:
       server: https://kubernetes.default.svc
@@ -102,7 +108,8 @@ listGenerators:
         path: helm-charts/namespace-common
 
 matrixGenerators:
-  - enabled: true
+  dev-apps:
+    enabled: true
     name: dev-apps
     source:
       repoURL: https://github.com/ajeet476/argoproject.git
@@ -136,6 +143,12 @@ gitRepoCred:
   password: ""
 
 gitRepos:
-  - enabled: true
+  argoproject:
+    enabled: false
     name: "argoproject"
     url: https://github.com/ajeet476/argoproject
+
+projectGenerators:
+  default:
+    enabled: false
+    name: default

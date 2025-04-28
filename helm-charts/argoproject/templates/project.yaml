@@ -1,15 +1,19 @@
+{{- range $project := .Values.projectGenerators }}
+{{- if $project.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: default
+  name: {{ $project.name }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: My Project
+  description: {{ $project.description }}
 
   # Allow manifests to deploy from any Git repos
+  {{- with $project.sourceRepos }}
   sourceRepos:
-    - '*'
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 
   # Only permit applications to deploy to the guestbook namespace in the same cluster
   destinations:
@@ -17,22 +21,26 @@ spec:
       server: https://kubernetes.default.svc
 
   # Deny all cluster-scoped resources from being created, except for Namespace
+  {{- with $project.clusterResourceWhitelist }}
   clusterResourceWhitelist:
-    - group: ''
-      kind: Namespace
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 
   # Allow all namespaced-scoped resources to be created, except for ResourceQuota, LimitRange, NetworkPolicy
+  {{- with $project.namespaceResourceBlacklist }}
   namespaceResourceBlacklist:
-    - group: ''
-      kind: ResourceQuota
-    - group: ''
-      kind: LimitRange
-    - group: ''
-      kind: NetworkPolicy
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 
   # Deny all namespaced-scoped resources from being created, except for Deployment and StatefulSet
-#  namespaceResourceWhitelist:
-#    - group: 'apps'
-#      kind: Deployment
-#    - group: 'apps'
-#      kind: StatefulSet
+  #  namespaceResourceWhitelist:
+  #    - group: 'apps'
+  #      kind: Deployment
+  #    - group: 'apps'
+  #      kind: StatefulSet
+  {{- with $project.namespaceResourceWhitelist }}
+  namespaceResourceWhitelist:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}
