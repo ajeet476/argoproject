@@ -4,14 +4,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
-  name: {{ $name }}-analysis
+  name: {{ $analysis.name }}-analysis
 spec:
   {{- with $analysis.args }}
   args:
   {{- toYaml . | nindent 4 }}
   {{- end }}
   metrics:
-    - name: {{ $name }}
+    - name: {{ $analysis.name }}
       {{- with $analysis.interval }}
       interval: {{ . }}
       {{- end }}

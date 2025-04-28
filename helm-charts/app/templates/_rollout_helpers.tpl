@@ -14,10 +14,10 @@
 analysis:
   templates:
 {{- if .errorLogs.enabled }}
-    - templateName: error-logs
+    - templateName: {{ .errorLogs.name }}
 {{- end }}
 {{- if .successRate.enabled }}
-    - templateName: success-rate
+    - templateName: {{ .successRate.name }}
 {{- end }}
   startingStep: 2 # delay starting analysis run until smoke test
 {{- $args := concat .errorLogs.args .successRate.args | uniq }}
@@ -41,8 +41,8 @@ analysis:
         exact: Mozilla
 - analysis:
     templates:
-       - templateName: smoke-test
-    {{- with .errorLogs.args }}
+       - templateName: {{ .smokeTest.name }}
+    {{- with .smokeTest.args }}
     args:
     {{- toYaml . | nindent 6 }}
     {{- end }}
