@@ -4,7 +4,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
-  name: {{ $analysis.name }}-analysis
+  name: {{ $analysis.name }}
 spec:
   {{- with $analysis.args }}
   args:
