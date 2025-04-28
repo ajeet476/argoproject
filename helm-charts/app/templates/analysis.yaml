@@ -1,0 +1,45 @@
+{{- with $name, $analysis := .Values.rollout.analysisTemplate -}}
+{{- if $analysis.create }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ $name }}-analysis
+spec:
+  {{- with $analysis.args }}
+  args:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  metrics:
+    - name: {{ $name }}
+      {{- with $analysis.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with $analysis.successCondition }}
+      successCondition: {{ . | quote }}
+      {{- end }}
+      {{- with $analysis.failureLimit }}
+      failureLimit: {{ . }}
+      {{- end }}
+      provider:
+        {{- if eq "job" $analysis.provider }}
+        job:
+          spec:
+            backoffLimit: 1
+            template:
+              spec:
+                containers:
+                  - name: test
+                    image: {{ $analysis.image }}
+                    command:
+                      {{- $analysis.command | nindent 22 }}
+                restartPolicy: {{ default "Never" $analysis.restartPolicy }}
+        {{- else if eq "prometheus" $analysis.provider }}
+        prometheus:
+          address: {{ $analysis.address }}
+          timeout: 40 # timeout is expressed in seconds
+          query: |
+            {{- $analysis.query | indent 12 }}
+        {{- end }}
+{{- end }}
+{{- end }}
