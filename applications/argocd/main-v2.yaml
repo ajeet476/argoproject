@@ -27,7 +27,7 @@ spec:
               appGenerators: []
   template:
     metadata:
-      name: main-'{{.name}}'
+      name: main-{{.name}}
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
