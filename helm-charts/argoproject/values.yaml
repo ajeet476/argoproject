@@ -7,7 +7,7 @@ appGenerators:
     name: spark
     destination:
       server: https://kubernetes.default.svc
-      namespace: production
+      namespace: middleware
     sources:
       - repoURL: registry-1.docker.io/bitnamicharts
         chart: spark
@@ -15,6 +15,51 @@ appGenerators:
         helm:
           valueFiles:
             - $values/applications/spark/values.yaml
+      - repoURL: https://github.com/ajeet476/argoproject.git
+        targetRevision: HEAD
+        ref: values
+  - enabled: true
+    name: istio-base
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: istio-system
+    sources:
+      - repoURL: https://istio-release.storage.googleapis.com/charts
+        chart: istio/base
+        targetRevision: 1.25.2
+        helm:
+          valueFiles:
+            - $values/applications/istio/base.yaml
+      - repoURL: https://github.com/ajeet476/argoproject.git
+        targetRevision: HEAD
+        ref: values
+  - enabled: true
+    name: istio-istiod
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: production
+    sources:
+      - repoURL: https://istio-release.storage.googleapis.com/charts
+        chart: istio-system
+        targetRevision: 1.25.2
+        helm:
+          valueFiles:
+            - $values/applications/istio/istiod.yaml
+      - repoURL: https://github.com/ajeet476/argoproject.git
+        targetRevision: HEAD
+        ref: values
+  - enabled: true
+    name: istio-ingress
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: istio-public
+    sources:
+      - repoURL: https://istio-release.storage.googleapis.com/charts
+        chart: istio/gateway
+        targetRevision: 1.25.2
+        helm:
+          valueFiles:
+            - $values/applications/istio/ingress.yaml
       - repoURL: https://github.com/ajeet476/argoproject.git
         targetRevision: HEAD
         ref: values
