@@ -1,5 +1,0 @@
-namespace:
-  create: true
-  name: cicd
-  gateway:
-    hostname: "cicd.ajeet.io"

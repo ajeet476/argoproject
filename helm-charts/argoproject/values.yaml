@@ -95,17 +95,17 @@ listGenerators:
     source:
       repoURL: https://github.com/ajeet476/argoproject.git
       targetRevision: HEAD
-      path: '{{.path}}'
+      path: helm-charts/namespace-common
       helm:
         valueFiles:
           - ../../applications/namespace/{{ .name }}.yaml
     apps:
       - name: dev
-        path: helm-charts/namespace-common
       - name: stg
-        path: helm-charts/namespace-common
       - name: prod
-        path: helm-charts/namespace-common
+      - name: middleware
+      - name: istio-system
+      - name: istio-public
 
 matrixGenerators:
   dev-apps:
