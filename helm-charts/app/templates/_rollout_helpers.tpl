@@ -28,12 +28,13 @@ analysis:
 {{- end }}
 
 {{- define "app.rollout.smoketest.analysis" }}
+{{- $istioSmokeTestRoute := (include "app.rollout.smoketest.analysis.header" . | trim) -}}
 {{- with .analysisTemplate }}
 {{- if or .smokeTest.enabled }}
 - setCanaryScale:
     replicas: 1
 - setHeaderRoute: # enable header based traffic routing where
-    name: "smoke-test-header"
+    name: {{ $istioSmokeTestRoute | quote }}
     match:
     - headerName: smoke-test
       headerValue:
@@ -46,11 +47,15 @@ analysis:
     {{- toYaml . | nindent 6 }}
     {{- end }}
 - setHeaderRoute:
-    name: "smoke-test-header" # disable header based traffic routing
+    name: {{ $istioSmokeTestRoute | quote }} # disable header based traffic routing
 - setCanaryScale:
     matchTrafficWeight: true
 {{- end }}
 {{- end }}
+{{- end }}
+
+{{- define "app.rollout.smoketest.analysis.header" }}
+{{- ternary "smoke-test-header" "" .analysisTemplate.smokeTest.enabled }}
 {{- end }}
 
 {{- define "app.rollout.strategy" -}}
@@ -61,6 +66,11 @@ analysis:
 canary:
   trafficRouting:
   {{- if $istioVs }}
+  {{- $istioSmokeTestRoute := (include "app.rollout.smoketest.analysis.header" . | trim) -}}
+  {{- if $istioSmokeTestRoute }}
+    managedRoutes:
+      - name: {{ $istioSmokeTestRoute | quote }}
+  {{- end }}
     istio:
       virtualServices:
       {{- $istioVs | nindent 8 }}
