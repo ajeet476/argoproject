@@ -26,7 +26,6 @@ analysis:
 {{- end }}
 {{- end }}
 {{- end }}
-{{- end }}
 
 {{- define "app.rollout.smoketest.analysis" }}
 {{- with .analysisTemplate }}

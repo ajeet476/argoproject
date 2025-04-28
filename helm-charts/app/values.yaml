@@ -88,7 +88,7 @@ rollout:
         - name: service-name
       provider: job
       image: "alpine/curl"
-      command: "-fsSL http://{{args.service-name}}:8080/"
+      command: ["-fsSL", "http://{{args.service-name}}:8080/"]
     errorLogs:
       enabled: true
       create: true

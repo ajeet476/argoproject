@@ -1,4 +1,4 @@
-{{- with $name, $analysis := .Values.rollout.analysisTemplate -}}
+{{- range $name, $analysis := .Values.rollout.analysisTemplate -}}
 {{- if $analysis.create }}
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -32,14 +32,14 @@ spec:
                   - name: test
                     image: {{ $analysis.image }}
                     command:
-                      {{- $analysis.command | nindent 22 }}
+                      {{- toYaml $analysis.command | nindent 22 }}
                 restartPolicy: {{ default "Never" $analysis.restartPolicy }}
         {{- else if eq "prometheus" $analysis.provider }}
         prometheus:
           address: {{ $analysis.address }}
           timeout: 40 # timeout is expressed in seconds
           query: |
-            {{- $analysis.query | indent 12 }}
+            {{- $analysis.query | nindent 12 }}
         {{- end }}
 {{- end }}
 {{- end }}
