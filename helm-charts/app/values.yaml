@@ -81,7 +81,7 @@ istio:
 rollout:
   type: canary
   analysisTemplate:
-    smokeTest:
+    smoke-test:
       enabled: true
       create: true
       args:
@@ -89,7 +89,7 @@ rollout:
       provider: job
       image: "alpine/curl"
       command: ["-fsSL", "http://{{args.service-name}}:8080/"]
-    errorLogs:
+    error-logs:
       enabled: true
       create: true
       interval: 5m
@@ -101,7 +101,7 @@ rollout:
       # Todo: fix
       query: |
         http_latency_ms{service="{{args.service-name}}"}
-    successRate:
+    success-rate:
       enabled: true
       create: true
       interval: 5m
