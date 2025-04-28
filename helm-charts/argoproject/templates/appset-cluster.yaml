@@ -1,5 +1,5 @@
 {{- $template := (.Files.Get "files/list_template_name.yaml") | fromYaml }}
-{{- range $appset := .Values.appGenerators }}
+{{- range $appset := .Values.clusterGenerators }}
 {{- if $appset.enabled }}
 ---
 apiVersion: argoproj.io/v1alpha1
