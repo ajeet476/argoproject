@@ -157,8 +157,8 @@ class AppWorkflow:
 
 if __name__ == "__main__":
     config = WorkflowConfig(
-        enable_istio=True,
-        enable_istio_ingress=True,
+        enable_istio=False,
+        enable_istio_ingress=False,
         enable_argocd=True
     )
 
