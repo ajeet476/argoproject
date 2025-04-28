@@ -41,7 +41,7 @@ spec:
         targetRevision: HEAD
         helm:
           values: |
-            '{{ .values }}'
+            {{ .values }}
       syncPolicy:
         syncOptions:
           - RespectIgnoreDifferences=true
